@@ -1,6 +1,16 @@
-
+#define _CRT_SECURE_NO_WARNINGS
+#include<memory> 
+#include<string> 
+#include<cstring> 
+#include<iostream>
+#include<windows.h> 
+#include<stdlib.h>
+#include<time.h>
+#include<math.h>
+#include<stdio.h>
 #include "game.h"
-using namespace std;
+using namespace std; 
+
 
 
 void menu()
@@ -11,17 +21,39 @@ void menu()
 }
 void game()
 {
-	char mine[ROWS][COLS] = { 0 };
-	char show[ROWS][COLS] = { 0 };
-	initboard(mine, ROWS, COLS, '0');
-	initboard(show, ROWS, COLS, '*');
-	//display(mine, ROW, COL);
-	display(show, ROW, COL);
-	setmine(mine, ROW, COL);
-	display(mine, ROW, COL);
-	findmine(mine,show,ROW, COL);
-
-
+	char ret = 0;
+	char board[ROW][COL] = { 0 };
+	initboard(board, ROW, COL);
+	display(board, ROW, COL);
+	while (1)
+	{
+		Playermove(board, ROW, COL);
+		display(board, ROW, COL);
+		ret = iswin(board,ROW,COL);
+		if (ret != 'C')
+		{
+			break;
+		}
+		computermove(board, ROW, COL);
+		display(board, ROW, COL);
+		ret = iswin(board, ROW, COL);
+		if (ret != 'C')
+		{
+			break;
+		}
+	}
+	if (ret == '*')
+	{
+		printf("玩家赢\n");
+	}
+	else if (ret == '#')
+	{
+		printf("你输了\n");
+	}
+	else
+	{
+		printf("平局\n");
+	}
 }
 
 void test()
